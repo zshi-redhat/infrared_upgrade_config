@@ -1,0 +1,127 @@
+From 6a6d27ed00748da08c675f519dfdace83d1a2f45 Mon Sep 17 00:00:00 2001
+From: Zenghui Shi <zshi@redhat.com>
+Date: Wed, 13 Dec 2017 10:50:52 +0800
+Subject: [PATCH] change nic-configs settings
+
+config all networks on p5p1 interface,
+reserve p5p2 for sriov/dpdk usage
+---
+ rdo_newton/nic-configs/compute.yaml    | 10 +++---
+ rdo_newton/nic-configs/controller.yaml | 59 ++++++++++++++++------------------
+ 2 files changed, 32 insertions(+), 37 deletions(-)
+
+diff --git a/rdo_newton/nic-configs/compute.yaml b/rdo_newton/nic-configs/compute.yaml
+index c61bc05..78344ce 100644
+--- a/rdo_newton/nic-configs/compute.yaml
++++ b/rdo_newton/nic-configs/compute.yaml
+@@ -73,8 +73,8 @@ resources:
+         os_net_config:
+           network_config:
+             -
+-              type: interface
+-              name: p5p1
++              type: ovs_bridge
++              name: br-isolation
+               use_dhcp: false
+               dns_servers: {get_param: DnsServers}
+               addresses:
+@@ -91,13 +91,11 @@ resources:
+                 -
+                   default: true
+                   next_hop: {get_param: ControlPlaneDefaultRoute}
+-            -
+-              type: ovs_bridge
+-              name: br-isolation
++
+               members:
+                 -
+                   type: interface
+-                  name: p5p2
++                  name: p5p1
+                   primary: true
+                 -
+                   type: vlan
+diff --git a/rdo_newton/nic-configs/controller.yaml b/rdo_newton/nic-configs/controller.yaml
+index b8ff746..4c5f695 100644
+--- a/rdo_newton/nic-configs/controller.yaml
++++ b/rdo_newton/nic-configs/controller.yaml
+@@ -83,8 +83,8 @@ resources:
+           network_config:
+ 
+             -
+-              type: interface
+-              name: eth0
++              type: ovs_bridge
++              name: br-isolation
+               use_dhcp: false
+               dns_servers: {get_param: DnsServers}
+               addresses:
+@@ -98,39 +98,36 @@ resources:
+                -
+                  ip_netmask: 169.254.169.254/32
+                  next_hop: {get_param: EC2MetadataIp}
+-            -
+-              type: interface
+-              name: eth1
+-              use_dhcp: false
+-              dns_servers: {get_param: DnsServers}
+-            -
+-              type: vlan
+-              vlan_id: {get_param: InternalApiNetworkVlanID}
+-              device: eth1
+-              addresses:
++
++              members:
+                 -
+-                  ip_netmask: {get_param: InternalApiIpSubnet}
+-            -
+-              type: vlan
+-              vlan_id: {get_param: TenantNetworkVlanID}
+-              device: eth1
+-              addresses:
++                  type: interface
++                  name: eth1
++                  primary: true
+                 -
+-                  ip_netmask: {get_param: TenantIpSubnet}
+-            -
+-              type: vlan
+-              vlan_id: {get_param: StorageNetworkVlanID}
+-              device: eth1
+-              addresses:
++                  type: vlan
++                  vlan_id: {get_param: InternalApiNetworkVlanID}
++                  addresses:
++                    -
++                      ip_netmask: {get_param: InternalApiIpSubnet}
+                 -
+-                  ip_netmask: {get_param: StorageIpSubnet}
+-            -
+-              type: vlan
+-              vlan_id: {get_param: StorageMgmtNetworkVlanID}
+-              device: eth1
+-              addresses:
++                  type: vlan
++                  vlan_id: {get_param: TenantNetworkVlanID}
++                  addresses:
++                    -
++                      ip_netmask: {get_param: TenantIpSubnet}
++                -
++                  type: vlan
++                  vlan_id: {get_param: StorageNetworkVlanID}
++                  addresses:
++                    -
++                      ip_netmask: {get_param: StorageIpSubnet}
+                 -
+-                  ip_netmask: {get_param: StorageMgmtIpSubnet}
++                  type: vlan
++                  vlan_id: {get_param: StorageMgmtNetworkVlanID}
++                  addresses:
++                    -
++                      ip_netmask: {get_param: StorageMgmtIpSubnet}
+ 
+             -
+               type: ovs_bridge
+-- 
+2.9.3
+

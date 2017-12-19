@@ -10,11 +10,12 @@
           forward: bridge
           nic: p5p2
       net3:
-          name: br-link
+          name: br-all
           forward: bridge
           nic: em1
           ip_address: 10.9.88.33
           netmask: 255.255.255.0
+          renew: yes
       net4:
           external_connectivity: yes
           name: "management"
