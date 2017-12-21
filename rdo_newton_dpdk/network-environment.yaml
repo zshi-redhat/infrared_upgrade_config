@@ -34,7 +34,7 @@ parameter_defaults:
 #    NeutronMechanismDrivers: "openvswitch,sriovnicswitch"
 #
     # Nova flavor to use.
-    OvercloudControlFlavor: control
+    OvercloudControlFlavor: controller
     OvercloudComputeFlavor: compute
     # Number of nodes to deploy.
     ControllerCount: 3
