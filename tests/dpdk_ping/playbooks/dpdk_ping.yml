@@ -1,0 +1,5 @@
+---
+- hosts: undercloud
+  gather_facts: true
+  roles:
+    - dpdk_ping

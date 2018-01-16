@@ -1,0 +1,178 @@
+---
+- name: Ensuring we have required pkgs for ansible/openstack
+  become: true
+  package:
+    name: python2-shade
+    state: installed
+
+- name: Ensuring local directory to hold the os-client-config file
+  become: true
+  file:
+    path: /etc/openstack
+    state: directory
+    owner: root
+    group: root
+
+- name: Adding clouds.yaml for os-client-config for further actions
+  template:
+    src: clouds.yaml.j2
+    dest: /etc/openstack/clouds.yaml
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Create m1.dpdk flavor
+  os_nova_flavor:
+    cloud: overcloud
+    state: present
+    name: m1.dpdk
+    ram: 4096
+    vcpu: 4
+    disk: 150
+    extra_specs:
+      "hw:cpu_policy": "dedicated"
+      "hw:mem_page_size": "large"
+
+- name: Create internal network
+  os_network:
+    cloud: overcloud
+    state: present
+    name: internal
+    
+- name: Create internal network subnet
+  os_subnet:
+    cloud: overcloud
+    state: present
+    network_name: internal
+    name: internal-subnet
+    cidr: 172.20.0.0/24
+    gateway_ip: 172.20.0.1
+
+- name: Create external network
+  os_network:
+    cloud: overcloud
+    state: present
+    name: external
+    external: yes
+    provider_network_type: flat
+    provider_physical_network: datacentre
+
+- name: Create external network subnet
+  os_subnet:
+    cloud: overcloud
+    state: present
+    network_name: external
+    name: external-subnet
+    cidr: 10.9.88.0/24
+    enable_dhcp: false
+    gateway_ip: 10.9.88.254
+    allocation_pool_start: 10.9.88.85
+    allocation_pool_end: 10.9.88.89
+
+- name: Create router
+  os_router:
+    cloud: overcloud
+    state: present
+    name: internal_router
+    network: external
+    interfaces:
+      - internal-subnet
+
+- name: Create provider network
+  os_network:
+    cloud: overcloud
+    state: present
+    name: net-dpdk
+    provider_network_type: vlan
+    provider_segmentation_id: 216
+    provider_physical_network: dpdk
+
+- name: Create provider network subnet
+  os_subnet:
+    cloud: overcloud
+    state: present
+    network_name: net-dpdk
+    name: net-dpdk-subnet
+    cidr: 10.10.0.0/24
+    enable_dhcp: false
+    gateway_ip: 10.10.0.1
+    allocation_pool_start: 10.10.0.2
+    allocation_pool_end: 10.10.0.50
+
+- name: Create image
+  os_images:
+    cloud: overcloud
+    name: centos
+    container_format: bare
+    disk_format: qcow2
+    filename: /var/lib/libvirt/images/centos.qcow2
+
+- name: Create security group
+  os_security_group:
+    cloud: overcloud
+    state: present
+    name: full-access
+    
+- name: Create security group rules icmp
+  os_security_group_rule:
+    cloud: overcloud
+    security_group: full-access
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+
+- name: Create security group rules tcp
+  os_security_group_rule:
+    cloud: overcloud
+    security_group: full-access
+    protocol: tcp
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+
+- name: Create security group rules udp
+  os_security_group_rule:
+    cloud: overcloud
+    security_group: full-access
+    protocol: udp
+    remote_ip_prefix: 0.0.0.0/0
+    direction: ingress
+
+- name: Create dpdk instance
+  os_server:
+    cloud: overcloud
+    state: present
+    name: dpdk_vm_1
+    image: centos
+    flavor: m1.dpdk
+    security_groups: full-access
+    nics:
+      - net-name: net-dpdk
+      - net-name: internal
+
+- name: Create dpdk instance
+  os_server:
+    cloud: overcloud
+    state: present
+    name: dpdk_vm_2
+    image: centos
+    flavor: m1.dpdk
+    security_groups: full-access
+    nics:
+      - net-name: net-dpdk
+      - net-name: internal
+
+- name: Create floating ips
+  os_floating_ip:
+    cloud: overcloud
+    state: present
+    reuse: yes
+    server: dpdk_vm_1
+    network: external
+
+- name: Create floating ips
+  os_floating_ip:
+    cloud: overcloud
+    state: present
+    reuse: yes
+    server: dpdk_vm_2
+    network: external

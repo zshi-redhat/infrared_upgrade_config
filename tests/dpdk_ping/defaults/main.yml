@@ -1,0 +1,35 @@
+# cloud
+
+cloud: overcloud
+
+# flavor
+
+flavor_name: m1.dpdk
+flavor_ram: 4096
+flavor_vcpu: 4
+flavor_disk: 150
+
+# network
+
+network_name: "net-dpdk"
+provider_network_type: vlan
+provider_segment_id: 216
+provider_physical_network: "dpdk"
+
+# subnet
+
+subnet_enable_dhcp: false
+subnet_cidr: 10.10.0.0/24
+subnet_gateway_ip: 10.10.0.1
+subnet_allocation_start: 10.10.0.2
+subnet_allocation_end: 10.10.0.50
+
+# image
+
+image_name: centos
+image_container_format: bare
+image_disk_format: bare
+image_file_location: "/var/lib/libvirt/images/centos.qcow2"
+
+# instance
+
