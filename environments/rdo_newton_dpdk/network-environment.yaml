@@ -29,8 +29,9 @@ parameter_defaults:
     DnsServers: ["10.11.5.19", "10.10.160.2", "10.5.30.160"]
 
     NeutronNetworkType: 'vlan'
-    NeutronBridgeMappings: 'dpdk:br-link'
+    NeutronBridgeMappings: 'datacentre:br-ex,dpdk:br-link'
     NeutronNetworkVLANRanges: 'dpdk:215:219'
+    NeutronFlatNetworks: "datacentre"
 #    NeutronMechanismDrivers: "openvswitch,sriovnicswitch"
 #
     # Nova flavor to use.
