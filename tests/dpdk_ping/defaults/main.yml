@@ -6,7 +6,7 @@ cloud: overcloud
 
 flavor_name: m1.dpdk
 flavor_ram: 4096
-flavor_vcpu: 4
+flavor_vcpus: 4
 flavor_disk: 150
 
 # network

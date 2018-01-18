@@ -1,10 +1,4 @@
 ---
-- name: Ensuring we have required pkgs for ansible/openstack
-  become: true
-  package:
-    name: python2-shade
-    state: installed
-
 - name: Ensuring local directory to hold the os-client-config file
   become: true
   file:
@@ -14,6 +8,7 @@
     group: root
 
 - name: Adding clouds.yaml for os-client-config for further actions
+  become: true
   template:
     src: clouds.yaml.j2
     dest: /etc/openstack/clouds.yaml
@@ -27,7 +22,7 @@
     state: present
     name: m1.dpdk
     ram: 4096
-    vcpu: 4
+    vcpus: 4
     disk: 150
     extra_specs:
       "hw:cpu_policy": "dedicated"
@@ -100,7 +95,7 @@
     allocation_pool_end: 10.10.0.50
 
 - name: Create image
-  os_images:
+  os_image:
     cloud: overcloud
     name: centos
     container_format: bare
