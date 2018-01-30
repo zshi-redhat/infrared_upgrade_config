@@ -38,7 +38,7 @@ parameter_defaults:
     OvercloudComputeFlavor: compute
     # Number of nodes to deploy.
     ControllerCount: 3
-    ComputeCount: 2
+    ComputeCount: 1
 
     # List of cores to be used for DPDK Poll Mode Driver
     NeutronDpdkCoreList: "'4,6,20,22'"
