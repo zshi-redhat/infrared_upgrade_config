@@ -41,7 +41,7 @@ parameter_defaults:
     ComputeCount: 1
 
     # List of cores to be used for DPDK Poll Mode Driver
-    NeutronDpdkCoreList: "4,6,20,22"
+    NeutronDpdkCoreList: "'4,6,20,22'"
     # Number of memory channels to be used for DPDK
     NeutronDpdkMemoryChannels: "4"
     # NeutronDpdkSocketMemory
