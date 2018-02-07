@@ -41,7 +41,7 @@ parameter_defaults:
     ComputeCount: 1
 
     # List of cores to be used for DPDK Poll Mode Driver
-    NeutronDpdkCoreList: "'4,6,20,22'"
+    NeutronDpdkCoreList: "4,6,20,22"
     # Number of memory channels to be used for DPDK
     NeutronDpdkMemoryChannels: "4"
     # NeutronDpdkSocketMemory
@@ -64,4 +64,4 @@ parameter_defaults:
 
     ComputeKernelArgs: "intel_iommu=on iommu=pt default_hugepagesz=1GB hugepagesz=1G hugepages=32"
     HostIsolatedCoreList: "'2,4,6,8,10,12,14,18,20,22,24,26,28,30'"
-    HostCpusList: "'3,5,7,19,21,23'"
+    HostCpusList: "3,5,7,19,21,23"

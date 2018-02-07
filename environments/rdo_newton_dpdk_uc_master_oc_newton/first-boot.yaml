@@ -40,7 +40,7 @@ parameters:
       List of logical cores to be used by ovs-dpdk processess (dpdk-lcore-mask)
     type: string
     constraints:
-      - allowed_pattern: "'[0-9,]+'"
+      - allowed_pattern: "[0-9,]+"
 
 resources:
   userdata:
