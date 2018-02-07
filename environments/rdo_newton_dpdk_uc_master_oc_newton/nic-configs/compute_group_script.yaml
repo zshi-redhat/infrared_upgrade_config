@@ -80,21 +80,21 @@ resources:
                   type: ovs_bridge
                   name: br-isolation
                   use_dhcp: false
-                  dns_servers: {get_param: DnsServers}
+                  dns_servers: DnsServers
                   addresses:
                     -
                       ip_netmask:
                         list_join:
                           - '/'
-                          - - {get_param: ControlPlaneIp}
-                            - {get_param: ControlPlaneSubnetCidr}
+                          - - get_param: ControlPlaneIp
+                            - get_param: ControlPlaneSubnetCidr
                   routes:
                     -
                       ip_netmask: 169.254.169.254/32
-                      next_hop: {get_param: EC2MetadataIp}
+                      next_hop: get_param: EC2MetadataIp
                     -
                       default: true
-                      next_hop: {get_param: ControlPlaneDefaultRoute}
+                      next_hop: get_param: ControlPlaneDefaultRoute
 
                   members:
                     -
@@ -103,27 +103,27 @@ resources:
                       primary: true
                     -
                       type: vlan
-                      vlan_id: {get_param: InternalApiNetworkVlanID}
+                      vlan_id: get_param: InternalApiNetworkVlanID
                       addresses:
                         -
-                          ip_netmask: {get_param: InternalApiIpSubnet}
+                          ip_netmask: get_param: InternalApiIpSubnet
                     -
                       type: vlan
-                      vlan_id: {get_param: StorageNetworkVlanID}
+                      vlan_id: get_param: StorageNetworkVlanID
                       addresses:
                         -
-                          ip_netmask: {get_param: StorageIpSubnet}
+                          ip_netmask: get_param: StorageIpSubnet
                     -
                       type: vlan
-                      vlan_id: {get_param: TenantNetworkVlanID}
+                      vlan_id: get_param: TenantNetworkVlanID
                       addresses:
                         -
-                          ip_netmask: {get_param: TenantIpSubnet}
+                          ip_netmask: get_param: TenantIpSubnet
                 -
                   type: ovs_bridge
-                  name: {get_input: bridge_name}
+                  name: bridge_name
                   use_dhcp: true
-                  dns_servers: {get_param: DnsServers}
+                  dns_servers: DnsServers
                   routes:
                     -
                       #default: true
@@ -151,4 +151,5 @@ resources:
 outputs:
   OS::stack_id:
     description: The OsNetConfigImpl resource.
-    value: {get_resource: OsNetConfigImpl}
+    value: get_resource: OsNetConfigImpl
+
