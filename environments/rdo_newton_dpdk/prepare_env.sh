@@ -12,7 +12,7 @@ glance image-create --name centos --disk-format qcow2 --container-format bare --
 sleep 1
 
 openstack keypair create --public-key /home/stack/.ssh/id_rsa.pub undercloud-stack
-sleep 1
+sleep 60
 
 heat stack-create -f /home/stack/rdo_newton_dpdk/vms.yaml demo
 
