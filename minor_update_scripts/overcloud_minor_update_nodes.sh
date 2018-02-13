@@ -7,7 +7,7 @@ if [ -d  /opt/infrared_upgrade_config ]; then
     cd infrared_upgrade_config
     git pull
 else
-    sudo git clone https://github.com/redhat-nfvpe/infrared_upgrade_config
+    sudo git clone https://github.com/zshi-redhat/infrared_upgrade_config.git
     cd infrared_upgrade_config
 fi
 sudo chown -R stack:stack /opt/infrared_upgrade_config
