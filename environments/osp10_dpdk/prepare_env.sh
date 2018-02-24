@@ -6,7 +6,7 @@ set -x
 # this shall be done by deployment itself
 source ~/stackrc; for address in $(openstack server list -f json | jq -r -c '.[] | .Networks' | grep -oP '[0-9.]+'); do ssh -q -o StrictHostKeyChecking=no heat-admin@$address 'sudo ifconfig br-ex up; sudo dhclient -v br-ex'; done
 
-source /home/stack/overcloudrc
+source /home/stack/overcloudrc.v3
 
 glance image-create --name centos --disk-format qcow2 --container-format bare --file /home/stack/centos.qcow2
 sleep 1
