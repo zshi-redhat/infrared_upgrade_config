@@ -8,5 +8,5 @@ openstack overcloud deploy --templates \
 -e /usr/share/openstack-tripleo-heat-templates/environments/net-single-nic-with-vlans.yaml  \
 -e /usr/share/openstack-tripleo-heat-templates/environments/neutron-ovs-dpdk.yaml \
 -e /home/stack/rdo_newton_dpdk/network-environment.yaml \
---ntp-server pool.ntp.org \
+--ntp-server 10.5.26.10 \
 --log-file overcloud_install.log
