@@ -1,6 +1,6 @@
 resource_registry:
-    OS::TripleO::Controller::Net::SoftwareConfig: nic-configs/controller.yaml
-    OS::TripleO::Compute::Net::SoftwareConfig: nic-configs/compute.yaml
+    OS::TripleO::Controller::Net::SoftwareConfig: nic-configs/controller_group_script.yaml
+    OS::TripleO::Compute::Net::SoftwareConfig: nic-configs/compute_group_script.yaml
     OS::TripleO::CephStorage::Net::SoftwareConfig: nic-configs/ceph-storage.yaml
     OS::TripleO::NodeUserData: first-boot.yaml
     OS::TripleO::NodeExtraConfigPost: post-install.yaml
