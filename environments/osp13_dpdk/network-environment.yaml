@@ -7,7 +7,7 @@ resource_registry:
 parameter_defaults:
     ComputeOvsDpdkParameters:
         KernelArgs: "intel_iommu=on iommu=pt default_hugepagesz=1GB hugepagesz=1G hugepages=32 isolcpus='2,4,6,8,10,12,14,18,20,22,24,26,28,30'"
-        TunedProfileName: "cpu-partitioning"
+#        TunedProfileName: "cpu-partitioning"
         IsolCpusList: "2,4,6,8,10,12,14,18,20,22,24,26,28,30"
         VhostuserSocketGroup: hugetlbfs
     InternalApiNetCidr: 172.17.1.0/24
