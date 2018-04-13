@@ -79,12 +79,6 @@ parameters:
     description: The IP address of the EC2 metadata server.
     type: string
 
-  # Local parameter used for internal lab easy template management
-  LocalProvisioningNicName:
-    type: string
-  LocalUnusedNicName:
-    type: string
-
 resources:
   OsNetConfigImpl:
     type: OS::Heat::SoftwareConfig

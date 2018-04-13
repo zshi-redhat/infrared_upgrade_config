@@ -88,11 +88,6 @@ parameters:
     default: 1
     type: number
 
-  LocalProvisioningNicName:
-    type: string
-  LocalUnusedNicName:
-    type: string
-
 resources:
   OsNetConfigImpl:
     type: OS::Heat::SoftwareConfig
