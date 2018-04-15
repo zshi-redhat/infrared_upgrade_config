@@ -147,6 +147,7 @@ resources:
                   get_param: DnsServers
                 routes:
                 - ip_netmask: 0.0.0.0/0
+                  next_hop: 10.9.88.254
                 - default: true
                   next_hop: 10.9.88.254
               - type: ovs_user_bridge
