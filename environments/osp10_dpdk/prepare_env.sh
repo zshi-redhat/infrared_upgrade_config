@@ -32,7 +32,7 @@ do
 	
 done
 
-sleep 10
+sleep 300
 
 # vnf1
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null centos@10.9.88.116 'sudo ip link set eth1 up'
