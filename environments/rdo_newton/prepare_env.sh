@@ -50,4 +50,4 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null centos@10.9.88.1
 
 
 # continuously ping test between vms and output to file
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null centos@10.9.88.116 "ping -D -w 4000 10.10.0.4 &> /tmp/pingtest_output &"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null centos@10.9.88.116 "ping 10.10.0.4 &> /tmp/pingtest_output &"
