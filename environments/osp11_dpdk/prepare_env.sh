@@ -14,7 +14,7 @@ sleep 1
 openstack keypair create --public-key /home/stack/.ssh/id_rsa.pub undercloud-stack
 sleep 60
 
-heat stack-create -f /home/stack/osp10_dpdk/vms.yaml demo
+heat stack-create -f /home/stack/osp11_dpdk/vms.yaml demo
 
 while true
 do
